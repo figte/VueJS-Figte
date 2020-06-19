@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo01VueJS</title>
+</head>
+<body>
+    
+    <div id="app">
+        <h1>App VueJS</h1>
+        <h2>{{saludo}}</h2>
+
+        <ul>
+            <li v-for="(item, index) in usuarios" :key="index">
+               {{'#:'+index}} {{item.id +' '+item.name}} 
+               <span v-if="index==1">SELECT</span> 
+            </li>
+        </ul>
+
+        numero1: <input v-model="n1" type="number"><br>
+        numero2: <input v-model="n2" type="number"><br>
+
+        <h2>Repsuesta: <span>{{(parseInt(n1)+parseInt(n2))}}</span></h2>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="index.js">
+    </script>
+
+</body>
+</html>

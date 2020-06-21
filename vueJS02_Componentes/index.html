@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo01VueJS</title>
+</head>
+<body>
+    <main id="app">
+        <h1>{{titulo}}</h1>
+        <hr>
+        Estudiante
+        <input v-on:click="formulario.especialidad=''" type="radio" name="tipo_formulario" v-model="tipo_formulario" v-bind:value="true">  
+        Docente
+        <input  v-on:click="formulario.carrera=''" type="radio" name="tipo_formulario" v-model="tipo_formulario" :value="false">
+        
+        <div v-if="tipo_formulario!=null">
+
+            <h3>formulario de <span>{{tipo_formulario?'estudiante':'profesor'}}</span></h3>
+        
+            <fieldset>
+                  
+                <div>
+                    <label for="">nombre:</label>
+                    <input  type="text" v-once="formulario.nombre" v-model="formulario.nombre" placeholder="digite el nombre">
+                </div> <br>
+                <div>
+                    <label for="">correo:</label>
+                    <input  type="email" v-model="formulario.email" placeholder="digite su email">
+                </div> <br>
+                <div v-if="tipo_formulario==true">
+                    <label for="">carrera:</label>
+                    <select v-model="formulario.carrera"  >  
+                            <option v-for="(carrera, index) in carreras" :key="index" :value="carrera.nombre" >{{carrera.nombre}}</option>
+                    </select>
+                </div> 
+                <div v-if="tipo_formulario==false">
+                    <label for="">especialidad:</label>
+                    <select v-model="formulario.especialidad">
+                        <option v-for="(especialidad, index) in especialidades" :key="index" :value="especialidad.nombre" >{{especialidad.nombre}}</option>
+                    </select>
+                </div> 
+                <br>
+                <button  v-on:click="agregar">agregar</button>
+            </fieldset>
+            
+            <h5>datos del formulario:</h5>
+            <span>{{formulario}}</span>
+            <br><br>
+            <table border="1" width="100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Carrera / Especialidad</th>
+                    </tr>
+                </thead>
+                <tbody v-if="datos.length>0">
+                  <tr  v-for="(item, index) in datos" :key="index">
+                      <td>{{index}}</td>
+                      <td>{{item.nombre}}</td>
+                      <td>{{item.email}}</td>
+                      <td v-if="item.carrera!=''">{{item.carrera}}</td>
+                      <td v-if="item.especialidad!=''">{{item.especialidad}}</td>
+                  </tr>
+                </tbody>
+            </table>
+
+            <h6>datos:</h6>
+            <span>{{datos}}</span><br><br>
+        </div>
+
+   
+
+   </main>
+
+    <!-- cdn para la libreia de VUEJS -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!--agrenado codigo en archivo externo -->
+    <script src="index.js"> </script>
+
+</body>
+</html>

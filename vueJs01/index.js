@@ -5,10 +5,7 @@ const app=new Vue({
         productos:[],
         usuarios:[],
         n1:0,
-        n2:0,
-        respuesta:0
-        
-
+        n2:0
     },
     methods: {
         

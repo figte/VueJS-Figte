@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue JS 03</title>
+</head>
+<body>
+    <!-- contenedor de la aplicacion VueJS -->
+    <main id="app">
+        <h1>{{titulo}}</h1>
+        <!-- agregando componente estatico -->
+        <componente></componente>
+        <!-- agregando un componente dinamico  -->
+        <elemento v-for="(item, index) in usuarios" :key="index"  :usuario="item.nombre"></elemento>
+    </main>
+        
+    <!-- codigo que se utilizara para un componente como plantilla -->
+    <template id="tarjeta">
+        <div>
+            <h3>Mi tarjeta</h3>
+            <h5>usuario: <span>{{usuario}}</span></h5>
+        </div>
+    </template>
+  
+
+     <!-- cdn para la libreia de VUEJS -->
+     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+     <!--agrenado codigo en archivo externo -->
+     <script src="index.js"> </script>
+
+</body>
+</html>

@@ -29,7 +29,6 @@ const mv=new Vue({
         ],
         item:"valor"
     },
-});
-
+});  
 
 

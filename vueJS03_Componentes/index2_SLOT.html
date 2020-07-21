@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Componetes VueJS 02</title>
+</head>
+<body>
+    <main id="app">
+        <!-- componente con valor por defecto en un Slot -->
+          <figura></figura>
+
+          <!-- componentes creados en base a un arreglo, de forma dinamica con propiedades y slot -->
+          <figura v-for="(item, index) in figuras" :key="index" :nombre="item">
+              <template slot="figura"><p>{{item}}</p></template>
+          </figura>
+    </main>
+
+    <template id="figura"> 
+            <div>
+                <h1>FIGURA {{nombre}}</h1>
+                <h2>Ejemplo</h2>
+                <slot name="figura">
+                    Por defecto
+                </slot>
+            </div>
+    </template>
+
+
+       <!-- cdn para la libreia de VUEJS -->
+       <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+       <!--agrenado codigo en archivo externo -->
+       <script> 
+                
+        Vue.component("figura",{
+            template:"#figura",
+            props:['nombre']
+        })
+
+        const mv=new Vue({
+            el:"#app",
+            data:{
+              figuras:["triangulo","circulo"]
+            },  
+          });
+        </script>
+</body>
+</html>

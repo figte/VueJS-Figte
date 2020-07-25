@@ -1,7 +1,9 @@
 <template>
   <div id="app">
+     <nav-bar></nav-bar>  
     <img src="./assets/logo.png" />
     <h1>{{ msg }}</h1>
+    
     <div>
       <todo-list :todos="todos"></todo-list>
       <todo-add></todo-add>
@@ -15,7 +17,8 @@
 <script>
 import ToDoList from "./components/ToDoList.vue";
 import ToDoAdd from "./components/ToDoAdd.vue";
-import feed from "./components/feed.vue"
+import feed from "./components/feed.vue";
+import navBar from "./components/navBar.vue";
 
 export default {
   name: "app",
@@ -23,6 +26,7 @@ export default {
     'todo-list':ToDoList,
     'todo-add':ToDoAdd,
     'feed': feed,
+    'nav-bar':navBar,
   },
   data() {
     return {
@@ -33,7 +37,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="css" >
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -48,21 +52,4 @@ h2 {
   font-weight: normal;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-  transition: all 0.3s ease-out;
-  &:hover {
-    color: brown;
-  }
-}
 </style>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VueJS Vuex</title>
+    
+    <!-- estilo de la aplicacion -->
+    <style>
+         :root {
+      --color-primary: #41B883;
+      --color-secondary: #35495E;
+    }
+
+    html {
+      font-family: sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      background: linear-gradient(180deg, var(--color-secondary), var(--color-primary));
+      color: #333;
+    }
+
+    a {
+      display: block;
+      margin: 1rem auto;
+      text-align: center;
+      color: var(--color-secondary);
+      transition: all .3s ease-out;
+    }
+
+    a:hover {
+      color: var(--color-primary);
+    }
+
+    .ToDo-container {
+      margin: auto;
+      padding: 1rem;
+      width: 24rem;
+      background-color: #FFF;
+      border-radius: .5rem;
+      box-shadow: 0 0 2rem rgba(0, 0, 0, .25);
+    }
+
+    .ToDo-title {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .ToDo-input {
+      width: 100%;
+      padding: .5rem;
+      font-size: 1rem;
+      outline: none;
+      border-radius: .25rem;
+      border: solid 1px #EEE;
+      box-sizing: border-box;
+    }
+
+    .ToDo-.tasks {
+      padding-left: 1.5rem;
+    }
+
+    .ToDo-task {
+      margin-bottom: .5rem;
+    }
+
+    .ToDo-task:hover {
+      cursor: pointer;
+    }
+
+    .completed {
+      text-decoration: line-through;
+      color: #555;
+    }
+    </style>
+</head>
+<body>
+    <!-- contenedor de la app -->
+    <main id="app" class="ToDo-container">
+            <h1 class="ToDo-title">
+                Todo List con Vuex
+            </h1>
+            <todo-add></todo-add>
+            <todo-list></todo-list>
+    </main>
+
+
+    <!-- platillas para los componentes -->    
+    <template id="todo-list">
+        <ul class="ToDo-tasks">
+            <li v-for="todo in todos" :key="todo.id" :class="{completed: todo.completed}"
+            class="ToDo-task" @click="toggleTodo(todo.id)"
+            @dblclick="deleteTodo(todo.id)" >
+                 {{todo.task}}
+            </li>
+        </ul>
+    </template>
+
+    <template id="todo-add">
+        <form @submit.prevent="addTodo">
+            <input type="text" class="ToDo-input" placeholder="agregue una tarea" v-model="task">
+        </form>
+    </template>
+
+    <!-- CDS de Vue y Vuex -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/vuex@2.0.0"></script>
+
+    <!-- programacion de funcionabilidad -->
+    <script>
+
+        //creando objetos para vuex
+        const state ={
+            todos:[
+                {
+                    id:0,
+                    task:'Tarea 1',
+                    completed:false
+                },
+                {
+                    id:1,
+                    task:'Tarea 2',
+                    completed:true
+                },
+                {
+                    id:2,
+                    task:'Tarea 3',
+                    completed:false
+                }
+            ]
+        }
+      
+        const getters={
+            getTodos:state=>state.todos
+        }
+      
+        const mutations={
+            ADD_TODO:(state, payload)=>{
+                const newTask={
+                    id:payload.id,
+                    task:payload.task,
+                    completed:false
+                }
+
+                state.todos.unshift(newTask)
+            },
+            TOGGLE_TODO:(state, payload)=>{
+                 let item=state.todos.find(todo=>todo.id===payload)   
+                 item.completed=!item.completed
+            },
+
+            DELETE_TODO:(state, payload)=>{
+                let index=state.todos.find(todo=>todo.id===payload) 
+                state.todos.splice(index,1)
+            }
+        }
+       
+        const actions={
+            addTodo:(context,payload)=>{
+                context.commit('ADD_TODO',payload)
+            },
+            toggleTodo:(context,payload)=>{
+                context.commit('TOGGLE_TODO',payload)
+            },
+            deleteTodo:(context,payload)=>{
+                context.commit('DELETE_TODO',payload)
+            }
+        }
+
+        //creando objeto store con la instacion de Vuex
+        const store=new Vuex.Store({
+            state,
+            getters,
+            mutations,
+            actions
+        })
+
+        //creando componentes
+        Vue.component('todo-list',{
+            computed: {
+                todos(){
+                    return this.$store.getters.getTodos; 
+                }
+            },
+            methods: {
+                toggleTodo(id){
+                    this.$store.dispatch('toggleTodo',id)
+                },
+                deleteTodo(id){
+                    this.$store.dispatch('deleteTodo',id)
+                }
+            },
+            template:'#todo-list',
+        })
+
+        Vue.component('todo-add',{
+            data(){
+                return {
+                    task:'',
+                    id:3
+                }
+            },
+            methods:{
+                addTodo(){
+                    this.$store.dispatch('addTodo',this)
+                    this.id++
+                    this.task=''
+                }
+            },
+            template:'#todo-add'
+        })
+
+        //creando instancia de Vue con el manejo de estado por vuex
+        const app=new Vue({
+            store:store,
+            el:'#app'
+        })
+
+
+    </script>
+</body>
+</html>

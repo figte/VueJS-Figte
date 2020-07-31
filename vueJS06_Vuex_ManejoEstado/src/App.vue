@@ -7,7 +7,6 @@
             <todo-add></todo-add>
             <todo-list></todo-list>
     </main>
-
 </template>
 
 <script>

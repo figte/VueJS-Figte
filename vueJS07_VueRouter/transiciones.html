@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue vue-router</title>
+
+    <style>
+            .fade-enter-active,
+            .fade-leave-active {
+                transition: opacity .5s
+            }
+
+            .fade-enter,
+            .fade-leave-to {
+                opacity: 0
+            }
+    </style>
+    
+</head>
+<body>
+    <main id="app">
+        <h1>Vue Router</h1>
+        <h2>Transiciones</h2>
+        <a href="../#rutas">regrear</a>
+
+        <router-link to="/">Home</router-link>
+        <router-link to="/acerca">Acerca</router-link>
+        <router-link to="/contacto">Contacto</router-link>
+        <hr>
+
+        <transition name="fade">
+            <router-view></router-view>
+        </transition>
+
+    </main>
+
+    <!-- agregando script con CDN de vue y vue-router -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
+
+    <script>
+
+        //componentes
+        const Home={template:'<h2>Home</h2>'}
+        
+        const About={template:'<h2>About</h2>'}
+
+        const Contact={template:'<h2>Contact</h2>'}
+
+        const Error404={template:'<h2>Error404</h2>'}
+
+
+    //creacion de sistema de rutas
+        const routes=[
+            {path:"/",component:Home},
+            {path:"/acerca",component:About},
+            {path:"/contacto",component:Contact},
+            {path:"*",component:Error404},
+        ]
+
+    //creando instacion de vue router
+        const router = new VueRouter({routes})
+    
+    //creando instancia de vue y pasando la instacia de vue router
+        new Vue({
+            router,
+            el:'#app'
+        })
+
+    </script>
+</body>
+</html>

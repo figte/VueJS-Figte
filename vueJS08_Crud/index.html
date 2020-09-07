@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/b-html5-1.6.3/b-print-1.6.3/r-2.2.5/datatables.min.css"/>
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/b-html5-1.6.3/b-print-1.6.3/r-2.2.5/datatables.min.js"></script>
+    <title>Personas</title>
+    
+    <!-- PARA LOS ICONOS -->
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous"> --> 
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+
+    <main id="app" class="container">
+        <datos></datos>
+    </main>
+
+    <!-- componentes -->
+    <template id="datos">
+        <div>
+            <!-- <button @click="guardar">Nuevo registro</button> -->
+            <button type="button" class="btn btn-primary far fa-file mt-3" data-toggle="modal" data-target="#myModal">    
+                 Nuevo Registro
+             </button>
+            <h1 class="text-center">Listado de personas</h1>
+
+             <table class="table table-hover "  style="width:100%"  id="table">
+                 <thead>
+                     <tr>
+                        <!-- <th>ID</th> -->
+                         <th>Nombre</th>
+                         <th>Edad</th>
+                         <th>Direccion</th>
+                         <th>Operaciones</th>
+                         
+                     </tr>
+                 </thead>
+                 <tbody>
+                    
+                 </tbody>
+                 <tfoot>
+                    <tr>
+                        <!-- <th>ID</th> -->
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>Direccion</th>
+                        <th>Operaciones</th>
+                        
+                    </tr>
+                </tfoot>
+             </table>  
+             
+             <!-- The Modal -->
+            <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                    <h4 class="modal-title">Nuevo Registro</h4>
+                    <button @click="reset" type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <input placeholder="Nombre" class="form-control" type="text" v-model="persona.nombre"> <br>
+                        <input placeholder="Edad"  class="form-control" type="number" v-model="persona.edad"> <br>
+                        <textarea placeholder="Direccion" class="form-control" v-model="persona.direccion" cols="30" rows="5"></textarea>
+                    </div>
+                    
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-danger	fas fa-reply" data-dismiss="modal"  @click="reset"> Close</button>
+                    <button v-if="edit==false" type="button" class="btn btn-success fas fa-save" data-dismiss="modal" @click="guardar" onclick="">  Guardar</button>
+                    <button v-if="edit==true"type="button" class="btn btn-warning fas fa-save" data-dismiss="modal" @click="modificar" onclick="">  Modificar</button>
+                    </div>
+                    
+                </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    
+    <!-- agregando script con CDN de vue y vue-router -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-database.js"></script>
+   
+
+    <script src="main.js"> </script>
+</body>
+</html>

@@ -4,41 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vue vue-router</title>
-
     <style>
-            .fade-enter-active,
-            .fade-leave-active {
-                transition: opacity .5s
-            }
+      :root {
+        --color-primary: #41B883;
+        --color-secondary: #35495E;
+        }
 
-            .fade-enter,
-            .fade-leave-to {
-                opacity: 0 
-            }
+        .router-link-active {
+        font-weight: bold;
+        color: var(--color-primary);
+        }
+
+        .router-link-exact-active {
+        padding-bottom: .25rem;
+        border-bottom: medium solid var(--color-primary);
+        }
+
     </style>
-
 </head>
 <body>
     <main id="app">
         <h1>Vue Router</h1>
-        <h2>Transiciones</h2>
+        <h2>Enlaces Activos</h2>
         <a href="../#rutas">regrear</a>
 
         <router-link to="/">Home</router-link>
         <router-link to="/acerca">Acerca</router-link>
         <router-link to="/contacto">Contacto</router-link>
         <hr>
-
-        <transition name="fade">
-            <router-view></router-view>
-        </transition>
+        <router-view></router-view>
 
     </main>
 
     <!-- agregando script con CDN de vue y vue-router -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
-
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script>
 
         //componentes

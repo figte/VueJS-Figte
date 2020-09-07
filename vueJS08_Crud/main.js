@@ -1,3 +1,5 @@
+
+//CONEXION A FIREBASE-----------------------------------
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCjVm4m57Xkmj82c9dTjwX1SdYuLPVl_Ig",
@@ -9,27 +11,29 @@ const firebaseConfig = {
     appId: "1:814232557555:web:34a91a64e79ae641fba486",
     measurementId: "G-JJPZHZCK7V"
 },
-    // Initialize Firebase
-    app = firebase.initializeApp(firebaseConfig),
-    db = app.database(),
-    personaModel = db.ref('personas')
+// Initialize Firebase
+app = firebase.initializeApp(firebaseConfig),
+db = app.database(),
+personaModel = db.ref('personas')
+//-----------------------------------------------------------------
 
-  
 
-//agregando componentes
-Vue.component("datos", {
-    template: "#datos",
+//agregando componente que muestra el CRUD con datable
+//que agrega funcionalidades de busquedas, filtros, botones de
+//exportar a excel y pdf, ademas de imprimir
+Vue.component("crud", {
+    template: "#crud",
     data() {
         return {
             data: [],
             persona: {
-                id:"",
+                id: "",
                 nombre: "",
                 edad: null,
                 direccion: ""
             },
-            table:null,
-            edit:false
+            table: null,
+            edit: false
         }
     },
     mounted() {
@@ -47,23 +51,19 @@ Vue.component("datos", {
                 // console.log(data.val())
                 //recorriendo los datos ordenados
                 data.forEach(element => {
-                    id=element.key;
+                    id = element.key;
                     nombre = element.val().nombre
                     edad = element.val().edad
                     direccion = element.val().direccion
                     operaciones = `
-                           <button onclick='vue.$children[0].eliminar("`+element.key+`")' class="btn btn-danger far fa-trash-alt ml-1 mb-1">  Eliminar</button>
-                           <button onclick='vue.$children[0].cargarEstudiante("`+element.key+`")' class="btn btn-primary fas fa-edit" data-toggle="modal" data-target="#myModal">  Modificar</button>
+                           <button onclick='vue.$children[0].eliminar("`+ element.key + `")' class="btn btn-danger far fa-trash-alt ml-1 mb-1">  Eliminar</button>
+                           <button onclick='vue.$children[0].cargarEstudiante("`+ element.key + `")' class="btn btn-primary fas fa-edit" data-toggle="modal" data-target="#myModal">  Modificar</button>
                         `
-                     //this.data.push(element.val())
-                    // console.log(element.key)
                     //agregando los datos al objeto  manejado con VUE JS con reactividad
-                    this.data.push({id:id, nombre: nombre, edad: edad, direccion: direccion, operaciones: operaciones })
+                    this.data.push({ id: id, nombre: nombre, edad: edad, direccion: direccion, operaciones: operaciones })
                 })
 
-             
-                //  $('#table').DataTable().destroy();
-
+                //configuracion de datatable
                 this.table = $('#table').DataTable({
 
                     "searching": true,
@@ -75,7 +75,7 @@ Vue.component("datos", {
                     "lengthMenu": [[5, 10, 20, 30], [5, 10, 20, 30]],
                     "order": [[0, "desc"]],
                     "responsive": true,
-                   "data": this.data, //agregando datos del objeto manejado con VUE de forma reactiva
+                    "data": this.data, //agregando datos del objeto manejado con VUE de forma reactiva
                     "columns": [
                         // { "data": 'id' },
                         { "data": 'nombre' },
@@ -83,9 +83,6 @@ Vue.component("datos", {
                         { "data": 'direccion' },
                         { "data": 'operaciones' },
                     ],
-
-                    // dom: 'Bfrtip',
-
                     "language": {
                         "lengthMenu": "Mostrar _MENU_ ",
                         "zeroRecords": "Datos no encontrados",
@@ -105,7 +102,6 @@ Vue.component("datos", {
 
                 //agregando un nueva instancia de botones
                 new $.fn.dataTable.Buttons(this.table, {
-
                     buttons: [
                         {
                             extend: 'excelHtml5',
@@ -118,7 +114,7 @@ Vue.component("datos", {
                                 modifier: {
                                     page: 'current'
                                 },
-                                columns:[0,1,2]
+                                columns: [0, 1, 2]
                             }
 
                         },
@@ -133,10 +129,9 @@ Vue.component("datos", {
                                 modifier: {
                                     page: 'current'
                                 },
-                                columns:[0,1,2]
+                                columns: [0, 1, 2]
                             }
                         },
-                        ,
                         {
                             extend: "print",
                             text: "  Imprimir",
@@ -146,7 +141,7 @@ Vue.component("datos", {
                                 modifier: {
                                     page: 'current'
                                 },
-                                columns:[0,1,2]
+                                columns: [0, 1, 2]
                             }
                         },
                         {
@@ -154,8 +149,7 @@ Vue.component("datos", {
                             text: "  Visibilidad",
                             className: 'btn btn-lg btn-warning mb-3 fas fa-th-list',
                         }
-
-                    ],
+                    ]
                 })
 
                 //anexando la instancia de botones antes creada                   
@@ -163,11 +157,7 @@ Vue.component("datos", {
                     this.table.table().container()
                 )
 
-                // table.buttons(0,null).container()
-                //     .appendTo( $('.col-sm-6:eq(0)', table.table().container() ) );
             })
-
-            //console.log(this.data)
         },
 
         guardar() {
@@ -181,89 +171,94 @@ Vue.component("datos", {
                         icon: "success",
                         button: "ok",
                     });
-                      //recargando datos
+                    //recargando datos
                     this.cargarDatos()
-                    //reset del objeto persona
-                    this.persona = {
-                        nombre: "",
-                        edad: null,
-                        direccion: ""
-                    }
+                    //reseteando estado de objetos
+                    this.reset()
                 })
 
-          
+
 
         },
-        
-        eliminar(id){
-            
+
+        eliminar(id) {
+
             personaModel.child(id).remove()
-            .then(() =>{
+                .then(() => {
+                    //notificanco el estado de la operacion
+                    swal({
+                        title: "Eliminado!",
+                        text: "Registro eliminado con exito!",
+                        icon: "success",
+                        button: "ok",
+                    })
+                    //recargando datos
+                    this.cargarDatos()
+                    //reseteando estado de objetos
+                    this.reset()
+
+                })
+                .catch(() => {
+                    //notificanco el estado de la operacion
+                    swal({
+                        title: "Problemas!",
+                        text: "No se elimino el registro!",
+                        icon: "danger",
+                        button: "ok",
+                    });
+                })
+
+        },
+
+        cargarEstudiante(id) {
+            //buscabdo el registro por el ID
+            personaModel.child(id).once("value").then((data) => {
+                //asignando valores al objeto de persona reactivo manejado por VUEJS
+                this.persona.id = data.key
+                this.persona.nombre = data.val().nombre
+                this.persona.edad = data.val().edad
+                this.persona.direccion = data.val().direccion
+                this.edit = true //cambiando el estado a edicion
+            })
+        },
+
+        modificar() {
+            //actualizando valores del registro persona
+            personaModel.child(this.persona.id).update({
+                nombre: this.persona.nombre,
+                edad: this.persona.edad,
+                direccion: this.persona.direccion
+            })
+            .then(() => {
+                 //notificanco el estado de la operacion
                 swal({
-                    title: "Eliminado!",
-                    text: "Registro eliminado con exito!",
+                    title: "Modificado!",
+                    text: "Registro modificado con exito!",
                     icon: "success",
                     button: "ok",
                 })
-                  //recargando datos
-                
+                //recargando datos
+                this.cargarDatos()
+                 //reseteando estado de objetos
+                this.reset()
+
             })
             .catch(() => {
+                 //notificanco el estado de la operacion
                 swal({
                     title: "Problemas!",
-                    text: "No se elimino el registro!",
+                    text: "No se modifico el registro!",
                     icon: "danger",
                     button: "ok",
                 });
             })
 
-            this.cargarDatos()
         },
 
-        cargarEstudiante(id){
-            personaModel.child(id).once("value").then((data) => {
-               this.persona.id=data.key
-               this.persona.nombre=data.val().nombre
-               this.persona.edad=data.val().edad
-               this.persona.direccion=data.val().direccion
-               this.edit=true
-           })
-        },
-
-        modificar(){
-            personaModel.child(this.persona.id).update({
-                nombre: this.persona.nombre ,
-                edad:this.persona.edad,
-                direccion: this.persona.direccion
-              })
-                .then(() =>{
-                    swal({
-                        title: "Modificado!",
-                        text: "Registro modificado con exito!",
-                        icon: "success",
-                        button: "ok",
-                    })
-                      //recargando datos
-                      this.cargarDatos()
-                      
-                      this.reset()
-                    
-                })
-                .catch(() => {
-                    swal({
-                        title: "Problemas!",
-                        text: "No se modifico el registro!",
-                        icon: "danger",
-                        button: "ok",
-                    });
-                })
-    
-        },
-
-        reset(){
-            this.edit=false
-             //reset del objeto persona
-             this.persona = {
+        reset() {
+            this.edit = false
+            //reset del objeto persona
+            this.persona = {
                 nombre: "",
                 edad: null,
                 direccion: ""
@@ -276,5 +271,3 @@ Vue.component("datos", {
 const vue = new Vue({
     el: '#app',
 })
-
-console.log(vue.$children[0].data)

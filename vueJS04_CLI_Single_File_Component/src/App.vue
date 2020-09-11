@@ -7,7 +7,7 @@
     <div>
       <todo-list :todos="todos"></todo-list>
       <todo-add></todo-add>
-    </div> <br><br>
+      </div><br><br>
 
       <feed></feed>
 

@@ -1,8 +1,8 @@
 <template>
-  <div class="container mx-auto mt-20 max-w-md  md:w-2/4 ">
+  <div class="container mx-auto mt-20  max-w-xs  xs:w-1/4 ">
    <form class="bg-blue-500 shadow-xl rounded px-6 pt-6 pb-8 mb-4 "  @submit.prevent="login" >
     <div>
-        <img class="mx-auto" src="../../assets/login.svg" width="200" alt="50" >
+        <img class="mx-auto" src="../../assets/img/login.svg" width="200" alt="50" >
         <h1 class="text-center text-white  text-lg font-bold">Inicio de Sesión</h1>
     </div>
     <div class="mb-4">
@@ -20,10 +20,10 @@
     </div>
     <div class="flex items-center justify-between">
    
-      <button class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0" type="submit">
+      <button class="inline-block text-sm px-4 py-2 leading-none shadow-lg rounded text-white hover:text-blue-800 bg-blue-800 hover:bg-white  mt-4 lg:mt-0" type="submit">
         Entrar
       </button>
-      <a class="inline-block align-baseline font-bold text-sm text-white ml-3" href="#">
+      <a class="inline-block align-baseline font-bold text-sm text-blue-800 hover:text-white ml-3" href="#">
         ¿Olvidaste tu contraseña?
       </a>
     </div>

@@ -4,10 +4,11 @@ import home from '../views/home/router'
 import login from '../views/login/router'
 import usuario from '../views/usuario/router'
 import error from '../views/error/router'
+import firebase from "firebase/app"
+import 'firebase/app'
+import 'firebase/auth'
 
 Vue.use(VueRouter)
-
-
 
 const routes=[
     {path:'/',redirect:'login'},
@@ -17,10 +18,9 @@ const routes=[
     error,
   ]
 
-
-
-
 const router = new VueRouter({
+  mode:'history',
+  base:process.env.BASE_URL,
   routes
 })
 
@@ -36,5 +36,16 @@ const router = new VueRouter({
 
 //   next();
 // })
+
+//VALIDANDO EL INICIO DE SESSION
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+  if(requiresAuth) {
+    firebase.auth().onAuthStateChanged( (user) => {
+      if (!user) next('/login')
+      else next()
+    })
+  } else next()
+})
 
 export default router

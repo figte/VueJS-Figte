@@ -10,7 +10,10 @@ const routes=
                 name:'usuario',
                 component:Usuario
             }
-        ]
+        ],
+        meta: {
+            requiresAuth: true
+        },
     }
 
 

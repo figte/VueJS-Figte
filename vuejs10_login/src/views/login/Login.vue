@@ -1,6 +1,9 @@
 <template>
   <div class="container mx-auto mt-20  max-w-xs  xs:w-1/4 ">
    <form class="bg-blue-500 shadow-xl rounded px-6 pt-6 pb-8 mb-4 "  @submit.prevent="login" >
+     <div>
+
+     </div>
     <div>
         <img class="mx-auto" src="../../assets/img/login.svg" width="200" alt="50" >
         <h1 class="text-center text-white  text-lg font-bold">Inicio de Sesión</h1>
@@ -9,13 +12,13 @@
       <label class="block text-white  text-sm font-bold mb-2" for="username">
         Usuario
       </label>
-      <input required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Digita tu usuario">
+      <input v-model="email" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="email" placeholder="Digita tu usuario">
     </div>
     <div class="mb-6">
       <label class="block text-white  text-sm font-bold mb-2" for="password">
         Contraseña
       </label>
-      <input required class="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Digita tu contraseña">
+      <input v-model="password" required class="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" type="password" placeholder="Digita tu contraseña">
       <!-- <p class="text-red-500 text-xs italic">Please choose a password.</p> -->
     </div>
     <div class="flex items-center justify-between">
@@ -35,12 +38,19 @@
 </template>
 
 <script>
+
 export default {
     name:'login',
+    data(){
+      return {
+        email:'',
+        password:'',
+      }
+    },
     methods:{
       login(){
-         this.$router.replace('home')
-         this.$store.dispatch('login/setStateLogin',true)
+         this.$store.dispatch('login/login',{email:this.email,password:this.password,stateLogin:true,component:this})
+      
       }
     }
 }

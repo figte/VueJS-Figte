@@ -1,6 +1,8 @@
 <template>
-   <div>
-       <h1>Error 404</h1>
+   <div class="p-12 mt-12">
+    <img class="mx-auto" src="../../assets/img/server.svg" width="200" >
+    <img class="mx-auto" src="../../assets/img/error404.svg" width="500" >
+    <h1 class="mx-auto text-center">NOT FOUND</h1>
    </div>
 </template>
 

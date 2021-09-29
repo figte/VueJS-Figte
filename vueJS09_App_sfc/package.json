@@ -13,7 +13,7 @@
     "@fortawesome/fontawesome-free": "^5.14.0",
     "bulma": "^0.9.0",
     "datatables-bulma": "^1.0.1",
-    "datatables.net": "^1.10.21",
+    "datatables.net": "^1.11.3",
     "datatables.net-autofill-dt": "^2.3.5",
     "datatables.net-buttons-dt": "^1.6.3",
     "datatables.net-dt": "^1.10.21",
